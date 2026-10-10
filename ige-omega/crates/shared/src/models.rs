@@ -2,7 +2,7 @@ use chrono::{DateTime,Utc};
 use serde::{Deserialize,Serialize};
 use uuid::Uuid;
 #[derive(Debug,Clone,Serialize,Deserialize)]
-pub struct MemoryRecord { pub id:Uuid,pub tenant_id:Uuid,pub user_id:Uuid,pub scope:MemoryScope,pub content:String,pub embedding:Option<Vec<f32>>,pub importance:f32,pub provenance:String,pub epistemic_state:EpistemicState,pub created_at:DateTime<Utc>,pub expires_at:Option<DateTime<Utc>> }
+pub struct MemoryRecord { pub id:Uuid,pub tenant_id:Uuid,pub user_id:Uuid,pub scope:MemoryScope,pub session_id:Option<Uuid>,pub content:String,pub embedding:Option<Vec<f32>>,pub importance:f32,pub provenance:String,pub epistemic_state:EpistemicState,pub created_at:DateTime<Utc>,pub expires_at:Option<DateTime<Utc>> }
 #[derive(Debug,Clone,Copy,Serialize,Deserialize,PartialEq,Eq)]
 #[serde(rename_all="SCREAMING_SNAKE_CASE")]
 pub enum MemoryScope { Tenant,User,Session }

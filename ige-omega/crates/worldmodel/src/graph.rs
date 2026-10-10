@@ -1,5 +1,5 @@
 use serde::{Deserialize,Serialize};use std::collections::{HashMap,HashSet};use uuid::Uuid;
-#[derive(Debug,Clone,Serialize,Deserialize)]pub struct Entity{pub entity_id:Uuid,pub name:String,pub entity_type:String}
+#[derive(Debug,Clone,Serialize,Deserialize)]pub struct Entity{pub entity_id:Uuid,pub name:String,pub entity_type:String,pub provenance:String}
 #[derive(Debug,Clone,Serialize,Deserialize)]pub struct Relation{pub source:Uuid,pub target:Uuid,pub relation:String,pub confidence:f32}
 #[derive(Debug,Clone,Serialize,Deserialize)]pub struct CausalEdge{pub cause:Uuid,pub effect:Uuid,pub probability:f32,pub evidence:Vec<String>}
 #[derive(Debug,Default)]pub struct WorldGraph{entities:HashMap<Uuid,Entity>,relations:Vec<Relation>,causal_edges:Vec<CausalEdge>}

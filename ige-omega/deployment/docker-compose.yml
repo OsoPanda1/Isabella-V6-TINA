@@ -16,8 +16,9 @@ services:
     build: {context: .., dockerfile: deployment/Dockerfile.gateway}
     environment:
       DATABASE_URL: postgres://ige:${POSTGRES_PASSWORD:-change-me-local-only}@postgres:5432/ige
-      IGE_API_TOKEN: ${IGE_API_TOKEN:?Set IGE_API_TOKEN in environment}
+      IGE_API_TOKENS: ${IGE_API_TOKENS:?Set IGE_API_TOKENS in environment}
       RUST_LOG: ${RUST_LOG:-info}
+      IGE_RATE_LIMIT_PER_MINUTE: ${IGE_RATE_LIMIT_PER_MINUTE:-120}
       IGE_BIND: 0.0.0.0:8080
     ports: ["127.0.0.1:8080:8080"]
     depends_on:

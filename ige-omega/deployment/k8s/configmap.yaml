@@ -6,3 +6,4 @@ metadata:
 data:
   IGE_BIND: "0.0.0.0:8080"
   RUST_LOG: "info"
+  IGE_RATE_LIMIT_PER_MINUTE: "120"

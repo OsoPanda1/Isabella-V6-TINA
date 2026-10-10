@@ -10,3 +10,10 @@ El MVP calcula SHA-256 sobre JSON serializado de una estructura Rust de campos o
 
 ## Fallos y escalado
 Si falla el ledger, la inferencia no se devuelve como éxito. La verificación completa es O(n), por lo que no debe ejecutarse por cada solicitud. Próximas fases: checkpoints firmados Ed25519/KMS, anclaje independiente, almacenamiento Object Lock/WORM, retención y privacidad, pruebas concurrentes/de manipulación y separación de roles. No registrar prompts ni secretos completos si un identificador/hash es suficiente.
+
+
+## Atomicidad de eventos de dominio
+
+Las decisiones ABX, las altas/bajas de memoria y las mutaciones del World Model ejecutadas por el gateway insertan su fila de dominio y el evento BookPI-X dentro de la misma transacción PostgreSQL. El append adquiere un advisory transaction lock antes de leer la cabeza, calcula `previous_hash` y `event_hash`, y sólo se confirma junto con el cambio de dominio. La verificación recorre el ledger en streaming para mantener memoria de proceso acotada, aunque su tiempo total sigue siendo O(n).
+
+El trigger de la migración `0005` bloquea UPDATE/DELETE ordinarios sobre el ledger. No protege contra un propietario/superusuario capaz de alterar permisos o deshabilitar triggers. La cadena necesita anclaje externo de su cabeza para detectar reescrituras coordinadas de la base completa; no se afirma WORM, firma digital ni no repudio.

@@ -1,7 +1,7 @@
 # Simulación acotada y arbitraje ABX/CROWN
 
 ## Simulador implementado
-Entrada: escenarios explícitos `(name, probability, impact)`. Se validan números finitos, probabilidades dentro de [0,1], impactos no negativos y suma de pesos en (0,1]. Se aplica muestreo ponderado determinista con máximo de 100.000 iteraciones y presupuesto del llamador. Salida: impacto esperado analítico respecto a los pesos declarados, peor impacto, p95 de la muestra y señal de presupuesto agotado.
+Entrada: escenarios explícitos `(name, probability, impact)`. Se validan números finitos, probabilidades finitas dentro de [0,1], nombres de escenario acotados, impactos no negativos y suma de probabilidades igual a 1 con tolerancia 1e-6. Los escenarios con probabilidad cero no inflan el peor caso. Se aplica muestreo ponderado determinista con máximo de 100.000 iteraciones y presupuesto del llamador. Salida: impacto esperado analítico respecto a los pesos declarados, peor impacto, p95 de la muestra y señal de presupuesto agotado.
 
 El generador de números es determinista y no criptográfico. Los escenarios son hipótesis del llamador, no observaciones del mundo. La simulación no es causal, no está calibrada ni constituye una predicción factual. Para producción faltan presupuesto global por tenant, cancelación, timeout, telemetría, calibración empírica y pruebas estadísticas.
 

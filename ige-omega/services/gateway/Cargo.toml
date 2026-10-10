@@ -7,8 +7,10 @@ license.workspace=true
 name="gateway"
 path="src/main.rs"
 [dependencies]
+anyhow.workspace=true
 shared.workspace=true
 memory.workspace=true
+worldmodel.workspace=true
 cognition.workspace=true
 abx.workspace=true
 bookpix.workspace=true

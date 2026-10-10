@@ -10,7 +10,8 @@
 **Lenguaje principal:** TypeScript · Node.js  
 **Estado de ingeniería:** evolución activa; no declarar listo para producción hasta superar los gates de validación y despliegue.  
 **Rama de integración IGE-Ω:** `feat/ige-omega-rust-mvp-2026-10`  
-**Pull request de integración:** [#18](https://github.com/OsoPanda1/Isabella-V6-TINA/pull/18)
+**Pull request de integración:** [#18](https://github.com/OsoPanda1/Isabella-V6-TINA/pull/18)  
+**Pull request de endurecimiento IGE-Ω:** [#19](https://github.com/OsoPanda1/Isabella-V6-TINA/pull/19)
 
 > **Contrato de veracidad:** `SPECIFIED ≠ IMPLEMENTED ≠ TESTED ≠ INTEGRATED ≠ VERIFIED ≠ DEPLOYED ≠ CERTIFIED`. Un contrato, fixture, simulación o adaptador sin configurar no demuestra una integración real. Los estados de salud deben derivarse de probes reales; no de valores fijos.
 

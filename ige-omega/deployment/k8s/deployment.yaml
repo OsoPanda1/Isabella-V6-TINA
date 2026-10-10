@@ -22,8 +22,8 @@ spec:
           env:
             - name: DATABASE_URL
               valueFrom: {secretKeyRef: {name: ige-omega-secrets, key: database-url}}
-            - name: IGE_API_TOKEN
-              valueFrom: {secretKeyRef: {name: ige-omega-secrets, key: api-token}}
+            - name: IGE_API_TOKENS
+              valueFrom: {secretKeyRef: {name: ige-omega-secrets, key: api-tokens}}
           resources:
             requests: {cpu: "100m", memory: "128Mi"}
             limits: {cpu: "1000m", memory: "512Mi"}

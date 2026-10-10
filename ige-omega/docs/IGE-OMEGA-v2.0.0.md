@@ -89,3 +89,17 @@ Sólo se declara TESTED si los comandos pasan en CI sobre el mismo SHA, con Carg
 
 ## 14. Axioma final
 IGE-Ω no reemplaza el juicio humano: lo hace trazable, cuestionable y, cuando se habilite ejecución, reversible. No confunde correlación con causalidad, memoria con verdad, inferencia con autoridad, simulación con certeza ni ejecución con legitimidad.
+
+
+## Endurecimiento de la API (implementación de seguimiento)
+
+El gateway admite tokens Bearer ligados a un par tenant/usuario mediante `IGE_API_TOKENS=token|tenant_uuid|user_uuid;...`; los DTOs no aceptan IDs de identidad del cliente. Los cuerpos HTTP están limitados a 64 KiB. `POST /api/v1/simulate` ejecuta simulación acotada y registra el resultado como evento `SIMULATION_COMPLETED`; no autoriza ni ejecuta acciones externas. La migración `0005_audit_immutability_and_memory_indexes.sql` impide UPDATE/DELETE ordinarios sobre `bookpi_events` mediante trigger, pero no ofrece garantías WORM contra el propietario de la base de datos.
+
+### Memoria: borrado explícito
+
+`DELETE /api/v1/memory/{memory_id}` elimina físicamente el registro si pertenece al tenant y usuario autenticados. La eliminación y el evento `MEMORY_RECORD_ERASED` se confirman en una transacción; el evento registra metadatos de borrado, nunca el contenido eliminado. Esta operación no es reversible por diseño y no debe describirse como rollback.
+
+
+### Memoria por sesión
+
+La migración `0008_session_scoped_memory.sql` añade `session_id` y exige consistencia entre alcance y sesión. Las memorias `SESSION` requieren un ID de sesión tanto al guardarse como al consultarse; las memorias `TENANT` y `USER` no aceptan `session_id`. El aislamiento principal sigue derivándose del token autenticado.
