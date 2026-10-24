@@ -3,7 +3,7 @@ import { evaluateEpistemicState, EPISTEMIC_LADDER_SPEC } from "../../src/cogniti
 
 describe("IKES Epistemic Evaluator", () => {
   it("defines all 7 levels E0 through E6 in the canonical ladder", () => {
-    const levels = ["E0", "E1", "E2", "E3", "E4", "E5", "E6"];
+    const levels = ["E0", "E1", "E2", "E3", "E4", "E5", "E6"] as const;
     for (const lvl of levels) {
       expect(EPISTEMIC_LADDER_SPEC[lvl]).toBeDefined();
       expect(EPISTEMIC_LADDER_SPEC[lvl].level).toBe(lvl);

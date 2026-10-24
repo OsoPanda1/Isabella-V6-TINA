@@ -22,8 +22,10 @@
 import { createHash } from "node:crypto";
 import type { EpistemicState } from "../memory/ikes";
 
+export type EpistemicLevel = "E0" | "E1" | "E2" | "E3" | "E4" | "E5" | "E6";
+
 export interface EpistemicLadderStep {
-  level: "E0" | "E1" | "E2" | "E3" | "E4" | "E5" | "E6";
+  level: EpistemicLevel;
   state: EpistemicState;
   rank: number;
   name: string;
@@ -41,7 +43,7 @@ export interface EpistemicLadderStep {
   };
 }
 
-export const EPISTEMIC_LADDER_SPEC: Readonly<Record<string, EpistemicLadderStep>> = Object.freeze({
+export const EPISTEMIC_LADDER_SPEC: Readonly<Record<EpistemicLevel, EpistemicLadderStep>> = Object.freeze({
   E0: {
     level: "E0",
     state: "E0_UNVERIFIED",
@@ -263,7 +265,7 @@ export function evaluateEpistemicState(input: EpistemicEvaluationInput): Epistem
     input.admitted === true &&
     input.requiresHumanApproval === false;
 
-  let assignedLevel: "E0" | "E1" | "E2" | "E3" | "E4" | "E5" | "E6" = "E0";
+  let assignedLevel: EpistemicLevel = "E0";
 
   if (isConstitutionalAxiom) {
     assignedLevel = "E6";
