@@ -53,7 +53,7 @@ app.use(
     verify: (req, _res, buf) => {
       // Preserve raw bytes only for the signed webhook route; duplicating every
       // request body adds avoidable allocations and GC pressure on the hot path.
-      if (req.originalUrl.split("?")[0] === "/api/v1/connectors/ingest") {
+      if ((req.url ?? "").split("?")[0] === "/api/v1/connectors/ingest") {
         connectorRawBodies.set(req, buf.toString("utf8"));
       }
     },
