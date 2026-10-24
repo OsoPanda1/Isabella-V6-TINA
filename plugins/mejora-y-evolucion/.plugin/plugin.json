@@ -1,0 +1,21 @@
+{
+  "name": "mejora-y-evolucion",
+  "version": "2.0.0",
+  "description": "Instrucción quirúrgica de mejora y evolución para Isabella Villaseñor AI: una corrida, un objetivo, un diff acotado y un PR en draft, bajo los invariantes de AGENTS.md.",
+  "author": {
+    "name": "OsoPanda1",
+    "email": "120252809+OsoPanda1@users.noreply.github.com"
+  },
+  "homepage": "https://github.com/OsoPanda1/Isabella-V6-TINA",
+  "repository": "https://github.com/OsoPanda1/Isabella-V6-TINA",
+  "license": "MIT",
+  "keywords": [
+    "mejora",
+    "evolucion",
+    "quirurgico",
+    "gobernanza",
+    "evidencia",
+    "isabella",
+    "draft"
+  ]
+}
