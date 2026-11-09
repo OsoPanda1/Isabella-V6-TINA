@@ -94,7 +94,9 @@ function parseVitestReport(report, summary) {
 function runTests(pkg) {
   if (fs.existsSync(VITEST_REPORT_FILE)) fs.rmSync(VITEST_REPORT_FILE, { force: true });
   const outputFileArg = VITEST_REPORT_FILE.replace(/\\/g, "/");
-  const cmd = ["exec", "vitest", "run", "--reporter=json", `--outputFile=${outputFileArg}`];
+  // `--` evita que el gestor de paquetes (npm exec) consuma las banderas de
+  // vitest como configuración propia: sin él no se escribe el reporte JSON.
+  const cmd = ["exec", "--", "vitest", "run", "--reporter=json", `--outputFile=${outputFileArg}`];
   const result = run(pkg, cmd);
   const output = (result.stdout + result.stderr).trim();
   const summary = {
