@@ -1,6 +1,6 @@
 import type { ControlState, EvolutionControl } from "../core/types";
 import { generateControls } from "./catalog";
-import { evolveControlState } from "./state-machine";
+import { allowControlTransition, evolveControlState } from "./state-machine";
 
 export interface WiringRegistry {
   controls: ReadonlyMap<string, EvolutionControl>;
@@ -15,16 +15,9 @@ export interface EngineResult {
   humanApprover?: string;
 }
 
-const TRANSITIONS: Record<ControlState, readonly ControlState[]> = {
-  declared: ["wired", "blocked"],
-  wired: ["verified", "blocked", "declared"],
-  verified: ["blocked", "declared"],
-  blocked: ["declared"],
-};
-
-/** La densificación sólo puede moverse por transiciones autorizadas. */
+/** La densificación sólo puede moverse por las transiciones canónicas. */
 export function allowTransition(previous: ControlState, next: ControlState): boolean {
-  return TRANSITIONS[previous].includes(next);
+  return allowControlTransition(previous, next);
 }
 
 /**
