@@ -34,4 +34,9 @@ export function validateProposal(proposal: EvolutionProposal, controls = generat
   if (proposal.evidenceRefs.length === 0) {
     throw new Error("EVOLUTION: proposal requires reproducible evidence references.");
   }
+  // Invariante operativo: la IA propone; la persona aprueba. Una propuesta que
+  // renuncia a la aprobación humana no puede considerarse válida.
+  if (proposal.requiresHumanApproval !== true) {
+    throw new Error("EVOLUTION: proposal requires human approval.");
+  }
 }
