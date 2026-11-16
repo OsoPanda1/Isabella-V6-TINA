@@ -2,6 +2,7 @@
 
 import type { EvolutionControl } from "../core/types";
 import type { ApprovalRef } from "../identity/approval";
+import { verifyHumanApproval } from "../identity/approval";
 import type { ChangeProposal } from "./proposal";
 
 export interface SandboxContext {
@@ -58,10 +59,16 @@ export function runSandbox(proposal: ChangeProposal, ctx: SandboxContext): Sandb
     };
   }
 
-  if (NOT_REPLAYABLE.has(proposal.riskTier) && ctx.approval?.decision !== "ALLOW") {
+  // Una aprobación no es autoridad por su forma: `decision: "ALLOW"` es un dato
+  // reclamable. La firma debe verificar y quedar ligada al method-id de la
+  // propuesta, igual que en CROWN, TOOLS, SKILLS y el PDP.
+  const approvalValid =
+    ctx.approval !== undefined &&
+    verifyHumanApproval(ctx.approval, { methodId: proposal.methodId });
+  if (NOT_REPLAYABLE.has(proposal.riskTier) && !approvalValid) {
     return {
       passed: false,
-      reason: `riesgo ${proposal.riskTier} requiere aprobación humana para representar la propuesta`,
+      reason: `riesgo ${proposal.riskTier} requiere aprobación humana verificada para representar la propuesta`,
       controlsTouched: matches.length,
       replayedIds: replayed,
       replayedAt: new Date().toISOString(),

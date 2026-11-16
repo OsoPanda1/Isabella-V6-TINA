@@ -53,6 +53,29 @@ describe("orion/sandbox", () => {
     expect(runSandbox(p, { controlsSnapshot: SNAPSHOT, approval }).passed).toBe(true);
   });
 
+  it("reprime riesgos MEDIUM+ con una aprobación forjada (sin firma verificable)", () => {
+    const p = baseProposal({ riskTier: "HIGH", governanceTier: "TERRITORIAL" });
+    // Forma de ApprovalRef sin firma real ni binding: `decision: "ALLOW"` no es autoridad.
+    const forged = {
+      evidenceId: "forged", approver: "attacker", approverKind: "human",
+      methodId: p.methodId, decision: "ALLOW",
+      decidedAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 60_000).toISOString(),
+      nonce: "n", targetHash: "t", keyId: "k", publicKeyPem: "p", signature: "s", action: "recall",
+    } as unknown as Parameters<typeof runSandbox>[1]["approval"];
+    expect(runSandbox(p, { controlsSnapshot: SNAPSHOT, approval: forged }).passed).toBe(false);
+  });
+
+  it("reprime riesgos MEDIUM+ con una aprobación firmada para otro method-id", () => {
+    const p = baseProposal({ riskTier: "HIGH", governanceTier: "TERRITORIAL" });
+    const human = createPrincipal({ id: "h1", kind: "human", roles: ["admin"] });
+    const approval = issueHumanApproval(
+      human,
+      { methodId: "A.TWINS.E15_MEMORY.otro.recall.v1.0.0.LOW.AUTONOMOUS", action: "recall" },
+      "ALLOW",
+    );
+    expect(runSandbox(p, { controlsSnapshot: SNAPSHOT, approval }).passed).toBe(false);
+  });
+
   it("falla si la propuesta no toca controles", () => {
     const p = buildProposal({
       methodId: "T.TWINS.E15_MEMORY.recall.synthesize.v1.0.0.LOW.AUTONOMOUS",
